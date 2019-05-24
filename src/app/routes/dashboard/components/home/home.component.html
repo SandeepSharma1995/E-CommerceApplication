@@ -1,0 +1,183 @@
+<!-- product home page -->
+<ng-container *ngIf="viewHome">
+  <div class="right" *ngIf="shopCount!=0">
+    <button [color]="'primary'" class="margin-xs" mat-raised-button (click)="goToCart()">GO TO CART</button>
+  </div>
+  <section class="product-home">
+    <h1 class="mat-title">Trending Clothing</h1>
+    <div class="card-container">
+      <ng-container *ngFor="let product of productArray">
+        <mat-card class="example-card">
+          <img mat-card-image class="image-product" src="{{product.productImage}}" alt="{{product.productImage}}">
+          <mat-card-content>
+            <p class="mat-subheading-2">
+              {{product.productName}}
+            </p>
+            <p>
+              ${{product.productPrice}}
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button [color]="'primary'" mat-raised-button (click)="buyProduct(product)">BUY</button>
+            <button [color]="'primary'" mat-raised-button (click)="addToCart(product)">ADD TO CART</button>
+          </mat-card-actions>
+        </mat-card>
+      </ng-container>
+    </div>
+  </section>
+  <section class="product-home">
+    <h1 class="mat-title">Fashion Accessories</h1>
+    <div class="card-container">
+      <ng-container *ngFor="let product of productArray1">
+        <mat-card class="example-card">
+          <img mat-card-image class="image-product" src="{{product.productImage}}" alt="{{product.productImage}}">
+          <mat-card-content>
+            <p class="mat-subheading-2">
+              {{product.productName}}
+            </p>
+            <p>
+              ${{product.productPrice}}
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button [color]="'primary'" mat-raised-button (click)="buyProduct(product)">BUY</button>
+            <button [color]="'primary'" mat-raised-button (click)="addToCart(product)">ADD TO CART</button>
+          </mat-card-actions>
+        </mat-card>
+      </ng-container>
+    </div>
+  </section>
+  <section class="product-home">
+    <h1 class="mat-title">TVs & Appliances</h1>
+    <div class="card-container">
+      <ng-container *ngFor="let product of productArray2">
+        <mat-card class="example-card">
+          <img mat-card-image class="image-product" src="{{product.productImage}}" alt="{{product.productImage}}">
+          <mat-card-content>
+            <p class="mat-subheading-2">
+              {{product.productName}}
+            </p>
+            <p>
+              ${{product.productPrice}}
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button [color]="'primary'" mat-raised-button (click)="buyProduct(product)">BUY</button>
+            <button [color]="'primary'" mat-raised-button (click)="addToCart(product)">ADD TO CART</button>
+          </mat-card-actions>
+        </mat-card>
+      </ng-container>
+    </div>
+  </section>
+</ng-container>
+
+
+<!-- cart selection page -->
+<ng-container *ngIf="viewCart">
+  <section class="cart-page center">
+    <ng-container *ngIf="shoppingList.length!=0">
+      <h1 class="mat-title">Your Cart</h1>
+      <div *ngFor="let product of shoppingList ">
+        <app-product-tile [product]="product"></app-product-tile>
+      </div>
+      <div>
+        <p class="mat-subheading-2">{{shoppingList.length}} Items</p>
+        <p class="mat-subheading-2">Total Price: ${{totalPrice}}</p>
+        <button [color]="'primary'" mat-raised-button (click)="placeOrder()">Checkout</button>
+      </div>
+    </ng-container>
+  </section>
+</ng-container>
+
+<!-- checkout-page -->
+<ng-container *ngIf="viewCheckout">
+  <section class="checkout-page center">
+    <h1 class="mat-title">Place Order</h1>
+    <mat-horizontal-stepper class="background-shadow" [linear]=true labelPosition="bottom" #stepper>
+      <mat-step [stepControl]="firstFormGroup" label="Personal Details" state="personalDetails">
+        <form [formGroup]="firstFormGroup" class="example-form" autocomplete="off">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Last name, First name" formControlName="name" required>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Email" formControlName="email" required>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Phone No." formControlName="phone" required>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="secondFormGroup" label="Delivery Address" state="deliveryAddress">
+        <form [formGroup]="secondFormGroup" class="example-form" autocomplete="off">
+          <div class="margin-bottom-s">
+            <button mat-raised-button (click)="fetchLocation()">Use my Current Location</button>
+          </div>
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Address" formControlName="address" required></textarea>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Pin Code" formControlName="pincode" required>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="State" formControlName="state" required>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="City" formControlName="city" required>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step label="Order Summary" state="orderSummary">
+        <div>
+          <div *ngFor="let product of orderList ">
+            <app-product-tile [product]="product"></app-product-tile>
+          </div>
+          <div>
+            <p class="mat-subheading-2">{{orderList.length}} Items</p>
+            <p class="mat-subheading-2">Total Price: ${{amtToBePaid}}</p>
+          </div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </mat-step>
+      <mat-step [stepControl]="thirdFormGroup" label="Payment Options" state="paymentOptions">
+        <form [formGroup]="thirdFormGroup" class="example-form" autocomplete="off">
+          <mat-radio-group class="example-radio-group" aria-label="Select payment option" formControlName="paymentOption" required>
+            <mat-radio-button class="example-radio-button" value="Credit Card">Credit Card</mat-radio-button>
+            <mat-radio-button class="example-radio-button" value="Net Banking">Net Banking</mat-radio-button>
+            <mat-radio-button class="example-radio-button" value="Cash on Delivery">Cash on Delivery</mat-radio-button>
+          </mat-radio-group>
+          <div>
+            <!-- <button mat-raised-button (click)="stepper.reset()">Reset</button> -->
+            <button [color]="'primary'" mat-button (click)="confirmOrder()">Confirm Order</button>
+          </div>
+        </form>
+      </mat-step>
+      <!-- Icon overrides. -->
+      <ng-template matStepperIcon="personalDetails">
+        <mat-icon>person</mat-icon>
+      </ng-template>
+      <ng-template matStepperIcon="deliveryAddress">
+        <mat-icon>add_location</mat-icon>
+      </ng-template>
+      <ng-template matStepperIcon="orderSummary">
+        <mat-icon>shopping_cart</mat-icon>
+      </ng-template>
+      <ng-template matStepperIcon="paymentOptions">
+        <mat-icon>credit_card</mat-icon>
+      </ng-template>
+
+    </mat-horizontal-stepper>
+  </section>
+</ng-container>
+
+<!-- shopping cart icon count -->
+<div *ngIf="shopCount!=0" class="shopping-cart cursor-pointer">
+  <span>
+    <mat-icon [color]="'primary'" (click)="goToCart()" matBadge="{{shopCount}}" class="shopping-cart-icon" matBadgeColor="accent">shopping_cart</mat-icon>
+  </span>
+</div>

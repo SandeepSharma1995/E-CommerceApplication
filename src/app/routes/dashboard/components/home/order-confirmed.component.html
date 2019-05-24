@@ -1,0 +1,33 @@
+<h1 mat-dialog-title>Thanks for shoppping with us.</h1>
+<p>Your order has been placed.</p>
+<div mat-dialog-content class="margin-left-m">
+
+  <div>
+    <p class="mat-subheading-1 margin-remove-bottom margin-top-s">Order Details:</p>
+    <span *ngFor="let order of data.orderList">
+      <p class="mat-caption margin-remove">
+        {{order.productName}}
+      </p>
+    </span>
+  </div>
+  <div>
+    <p class="mat-subheading-1 margin-remove-bottom margin-top-s">Updates sent to:</p>
+    <p class="mat-caption margin-remove">
+      <mat-icon>phone</mat-icon> {{data.userDetails.userPhone}}</p>
+    <p class="mat-caption margin-remove">
+      <mat-icon>email</mat-icon> {{data.userDetails.userEmail}}</p>
+  </div>
+
+  <div>
+    <p class="mat-subheading-1 margin-remove-bottom margin-top-s">Shipping Address:</p>
+    <p class="mat-caption margin-remove"> {{data.userDetails.userName}} </p>
+    <p class="mat-caption margin-remove"> {{data.userDetails.userAddress}} {{data.userDetails.userCity}},{{data.userDetails.userState}}-{{data.userDetails.userPincode}}</p>
+  </div>
+  <div>
+    <p class="mat-subheading-1 margin-remove-bottom margin-top-s">Payment Mode:</p>
+    <p class="mat-caption margin-remove">{{data.userDetails.userModeOfPayment}}</p>
+  </div>
+</div>
+<div class="right" mat-dialog-actions>
+  <button [color]="'primary'" mat-button [mat-dialog-close] [routerLink]="'\home'">Shop Again</button>
+</div>
