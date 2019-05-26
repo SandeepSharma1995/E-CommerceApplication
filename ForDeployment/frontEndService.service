@@ -1,0 +1,16 @@
+#!/bin/bash
+
+[Unit]
+Description=IAP DEV Front End Service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=5
+User=root
+ExecStart=/usr/local/bin/node /home/sandeep/frontEndServer.js
+
+[Install]
+WantedBy=multi-user.target
